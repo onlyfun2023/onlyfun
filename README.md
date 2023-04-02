@@ -1,2 +1,2 @@
-# quhu
-a community application for quhu
+# Onlyfun
+a community application for onlyfun
