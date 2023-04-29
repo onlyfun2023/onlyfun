@@ -4,8 +4,6 @@ import tornado.httpclient
 import configparser
 import random
 
-
-
 config = configparser.ConfigParser()
 config.read('config_node.ini')
 
@@ -17,8 +15,6 @@ class MainHandler(tornado.web.RequestHandler):
 
     async def get(self):
         url = api_url + self.request.uri +'?rand=' + str(random.random())
-        print("get")
-        print(url)
         self.set_header('Cache-Control', 'no-store')
         headers = self.request.headers
         headers["X-Real-IP"] = self.request.headers.get("X-Real-IP", self.request.remote_ip)
@@ -28,7 +24,6 @@ class MainHandler(tornado.web.RequestHandler):
 
     async def post(self):
         post_data = self.request.body.decode('utf-8')
-        print(post_data)
         if 'jsonrpc' in post_data:
             url = nodes
         else:
@@ -37,7 +32,6 @@ class MainHandler(tornado.web.RequestHandler):
                 print(request_uri,type(request_uri))
                 request_uri.replace("/api","")
             url = api_url + self.request.uri
-        print(url)
         headers = self.request.headers
         headers["X-Real-IP"] = self.request.headers.get("X-Real-IP", self.request.remote_ip)
         request = tornado.httpclient.HTTPRequest(url, method="POST", body=self.request.body, headers=headers, validate_cert=False)
